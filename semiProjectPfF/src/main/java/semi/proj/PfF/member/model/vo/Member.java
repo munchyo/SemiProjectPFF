@@ -85,7 +85,7 @@ public class Member {
 	public void setMemberName(String memberName) {
 		this.memberName = memberName;
 	}
-	
+
 	public String getMemberNickName() {
 		return memberNickName;
 	}
@@ -166,11 +166,11 @@ public class Member {
 		this.payAmount = payAmount;
 	}
 
-	public String geteventAgree() {
+	public String getEventAgree() {
 		return eventAgree;
 	}
 
-	public void seteventAgree(String eventAgree) {
+	public void setEventAgree(String eventAgree) {
 		this.eventAgree = eventAgree;
 	}
 
@@ -189,14 +189,6 @@ public class Member {
 	public void setAdmin(char admin) {
 		this.admin = admin;
 	}
-	
-	public String getEventAgree() {
-		return eventAgree;
-	}
-
-	public void setEventAgree(String eventAgree) {
-		this.eventAgree = eventAgree;
-	}
 
 	public char getMemberStatus() {
 		return memberStatus;
@@ -213,18 +205,7 @@ public class Member {
 				+ memberGender + ", memberEmail=" + memberEmail + ", memberHomePhone=" + memberHomePhone
 				+ ", memberPhone=" + memberPhone + ", memberAddress=" + memberAddress + ", enrollDate=" + enrollDate
 				+ ", point=" + point + ", payAmount=" + payAmount + ", eventAgree=" + eventAgree + ", grade=" + grade
-				+ ", admin=" + admin + ", memberStatus=" + memberStatus + ", getMemberNo()=" + getMemberNo()
-				+ ", getMemberId()=" + getMemberId() + ", getMemberPwd()=" + getMemberPwd() + ", getMemberName()="
-				+ getMemberName() + ", getMemberNickName()=" + getMemberNickName() + ", getMemberAge()="
-				+ getMemberAge() + ", getMemberGender()=" + getMemberGender() + ", getMemberEmail()=" + getMemberEmail()
-				+ ", getMemberHomePhone()=" + getMemberHomePhone() + ", getMemberPhone()=" + getMemberPhone()
-				+ ", getMemberAddress()=" + getMemberAddress() + ", getEnrollDate()=" + getEnrollDate()
-				+ ", getPoint()=" + getPoint() + ", getPayAmount()=" + getPayAmount() + ", geteventAgree()="
-				+ geteventAgree() + ", getGrade()=" + getGrade() + ", getAdmin()=" + getAdmin() + ", getEventAgree()="
-				+ getEventAgree() + ", getMemberStatus()=" + getMemberStatus() + ", getClass()=" + getClass()
-				+ ", hashCode()=" + hashCode() + ", toString()=" + super.toString() + "]";
+				+ ", admin=" + admin + ", memberStatus=" + memberStatus + "]";
 	}
 
-	
-	
 }
