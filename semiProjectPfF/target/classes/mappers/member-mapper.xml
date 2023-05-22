@@ -6,7 +6,8 @@
 	</select>
 	
 	<resultMap type="Member" id="memberResultSet">
-		<id column="MEMBER_ID" property="memberId"/>
+		<id column="MEMBER_NO" property="memberNo"/>
+		<result column="MEMBER_ID" property="memberId"/>
 		<result column="MEMBER_PWD" property="memberPwd"/>
 		<result column="MEMBER_NAME" property="memberName"/>
 		<result column="MEMBER_NICKNAME" property="memberNickName"/>
@@ -41,7 +42,8 @@
 	</select>
 	
 	<resultMap type="KakaoMember" id="kakaoResultSet">
-		<id column="KAKAO_ID" property="memberId"/>
+		<id column="MEMBER_NO" property="memberNo"/>
+		<result column="KAKAO_ID" property="memberId"/>
 		<result column="MEMBER_NAME" property="memberName"/>
 		<result column="MEMBER_NICKNAME" property="memberNickName"/>
 		<result column="MEMBER_HOMEPHONE" property="memberHomePhone"/>

@@ -337,6 +337,15 @@
 	<script>
 	// 나중에 로그인 안 되어있을 시 로그인 후 이용해달라는 메시지 띄우고 화면 이동
 	window.onload = () => {
+		const loginUser = '${loginUser}';
+		let memberNo;
+		if(loginUser == ''){
+			alert('로그인 후 이용해주세요.');
+			location.href='${contextPath}/loginView.me';
+		} else {
+			memberNo = '${loginUser.memberNo}'
+		}		
+		
 		let orderName;
 		let orderHomePhone;
 		let orderPhone;
@@ -537,6 +546,10 @@
 			form.submit();
 		}
 		
+		if(loginUser != '') {
+			
+		}
+		
 		function requestPayment(pgEng, pgKor) { 
 			IMP.init("imp40114615");	
 			IMP.request_pay({
@@ -585,7 +598,7 @@
 			    			type: 'POST',
 			    			data: {
 			    				orderNo: parseInt(productId),
-			    				memberNo: ${ loginUser.memberNo },
+			    				memberNo: memberNo,
 			    			    orderPayType: pgKor,
 			    			    orderPrice: amount,
 			    			    orderUsedPoint: parseInt(usePointInput.value),

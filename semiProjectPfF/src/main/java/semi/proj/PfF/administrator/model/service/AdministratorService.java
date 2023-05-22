@@ -2,12 +2,15 @@ package semi.proj.PfF.administrator.model.service;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import semi.proj.PfF.administrator.model.DAO.AdministratorDAO;
+import semi.proj.PfF.common.model.vo.PageInfo;
+import semi.proj.PfF.order.model.vo.OrderProduct;
 
 @Service
 public class AdministratorService {
@@ -40,6 +43,18 @@ public class AdministratorService {
 
 	public ArrayList<Date> selectAmountPayDate() {
 		return aDAO.selectAmountPayDate(sqlSession);
+	}
+	
+	public int getOrderCount(HashMap<String, String> searchMap) {
+		return aDAO.getOrderCount(sqlSession, searchMap);
+	}
+
+	public ArrayList<Integer> searchAllOrder(PageInfo pi, HashMap<String, String> searchMap) {
+		return aDAO.selectAllOrder(sqlSession, pi, searchMap);
+	}
+
+	public ArrayList<OrderProduct> selectAllOrderProduct( ArrayList<Integer> orders) {
+		return aDAO.selectAllOrderProduct(sqlSession, orders);
 	}
 	
 }

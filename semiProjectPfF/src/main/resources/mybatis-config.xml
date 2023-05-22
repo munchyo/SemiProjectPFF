@@ -10,11 +10,15 @@
 		<typeAlias type="semi.proj.PfF.member.model.vo.Member" alias="Member"/>
 		<typeAlias type="semi.proj.PfF.member.model.vo.KakaoMember" alias="KakaoMember"/>
 		<typeAlias type="semi.proj.PfF.product.model.vo.Product" alias="Product"/>
+		<typeAlias type="semi.proj.PfF.order.model.vo.Order" alias="Order"/>
+		<typeAlias type="semi.proj.PfF.order.model.vo.OrderProduct" alias="OrderProduct"/>
+		<typeAlias type="semi.proj.PfF.order.model.vo.Coupon" alias="Coupon"/>
 	</typeAliases>
 
 	<mappers>
 		<mapper resource="mappers/member-mapper.xml"/>
 		<mapper resource="mappers/product-mapper.xml"/>
 		<mapper resource="mappers/administrator-mapper.xml"/>
+		<mapper resource="mappers/order-mapper.xml"/>
 	</mappers>
 </configuration>

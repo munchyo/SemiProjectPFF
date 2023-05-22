@@ -21,6 +21,8 @@
 	<input type="submit">
 	</form>
 	<a href="${ contextPath }/statistics.ad"><button>통계</button></a>
+	<a href="${ contextPath }/paymentView.pay">결제</a>
+	<a href="${ contextPath }/checkPayment.ad">관리자 주문 조회</a>
 	<hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/><hr/>
 <%@ include file="common/footer.jsp" %>
 </body>

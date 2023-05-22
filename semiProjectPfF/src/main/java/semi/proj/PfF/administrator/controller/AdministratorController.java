@@ -11,13 +11,19 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonIOException;
 
 import semi.proj.PfF.administrator.model.service.AdministratorService;
+import semi.proj.PfF.common.Pagination;
+import semi.proj.PfF.common.model.vo.PageInfo;
+import semi.proj.PfF.order.model.vo.OrderProduct;
 
 @Controller
 public class AdministratorController {
@@ -32,9 +38,9 @@ public class AdministratorController {
 	
 	@RequestMapping("numOfPay.ad")
 	public void numOfPay(HttpServletResponse response) {
-//		1. °áÁ¦ÀÚ ¼ö , ³¯Â¥·Î ±×·ì¹ÙÀÌ ÇØ¼­ COUNT ÇÏ´Âµ¥ °°Àº»ç¶÷ÀÌ °áÁ¦ÇÞÀ»¶§ Áßº¹ÀÌµÇ¸é¾ÈµÊ 
-//		2. °áÁ¦ ¼ö , ³¯Â¥·Î ±×·ì¹ÙÀÌÇØ¼­ COUNT ÇØ¾ßÇÏÁö¾ÊÀ»±î
-//		3. ³¯Â¥µé
+//		1. ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ , ï¿½ï¿½Â¥ï¿½ï¿½ ï¿½×·ï¿½ï¿½ï¿½ï¿½ ï¿½Ø¼ï¿½ COUNT ï¿½Ï´Âµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ßºï¿½ï¿½ÌµÇ¸ï¿½Èµï¿½ 
+//		2. ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ , ï¿½ï¿½Â¥ï¿½ï¿½ ï¿½×·ï¿½ï¿½ï¿½ï¿½ï¿½Ø¼ï¿½ COUNT ï¿½Ø¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+//		3. ï¿½ï¿½Â¥ï¿½ï¿½
 		Calendar calendar = Calendar.getInstance();
 		calendar.add(Calendar.MONTH, -1);
 		Date oneMonthAgo = calendar.getTime();
@@ -63,9 +69,9 @@ public class AdministratorController {
 	
 	@RequestMapping("amountOfPay.ad")
 	public void amountOfPay(HttpServletResponse response) {
-//		1. ÀÏº° °áÁ¦ ±Ý¾× , ³¯Â¥·Î ±×·ì¹ÙÀÌÇØ¼­ sum
-//		2. ÇØ´ç³¯Â¥ Æ÷ÇÔÇÑ 7ÀÏ°£Æò±Õ ±Ý¾×, ¸Ç Ã¹³¯Àº 7ÀÏ Æò±ÕÀÌ ¾øÀ»Å×´Ï 0À¸·Î ¼³Á¤
-//		3. ³¯Â¥µé
+//		1. ï¿½Ïºï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ý¾ï¿½ , ï¿½ï¿½Â¥ï¿½ï¿½ ï¿½×·ï¿½ï¿½ï¿½ï¿½ï¿½Ø¼ï¿½ sum
+//		2. ï¿½Ø´ç³¯Â¥ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 7ï¿½Ï°ï¿½ï¿½ï¿½ï¿½ ï¿½Ý¾ï¿½, ï¿½ï¿½ Ã¹ï¿½ï¿½ï¿½ï¿½ 7ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½×´ï¿½ 0ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+//		3. ï¿½ï¿½Â¥ï¿½ï¿½
 		
 		ArrayList<Integer> sumPrice = aService.selectSumPrice();
 		ArrayList<Integer> avgPrice = aService.selectAvgPrice();
@@ -88,6 +94,49 @@ public class AdministratorController {
 			e.printStackTrace();
 		}
 		
+	}
+	
+	@GetMapping("checkPayment.ad")
+	public String paymentView() {
+		return "checkPayment";
+	}
+	
+	@GetMapping("searchOrder.ad")
+	public String searchOrder(@RequestParam(value="page", required=false) Integer page, Model model, @RequestParam("name") String name, @RequestParam("address") String address, 
+			@RequestParam("startDate") String startDate, @RequestParam("endDate") String endDate, @RequestParam("payMethod") String payMethod) {
+		int currentPage = 1;
+		if(page != null) {
+			currentPage = page;
+		}
+		
+		HashMap<String, String> searchMap = new HashMap<String, String>();
+		searchMap.put("name", name);
+		searchMap.put("address", address);
+		searchMap.put("startDate", startDate);
+		searchMap.put("endDate", endDate);
+		searchMap.put("payMethod", payMethod);
+		
+		int orderCount = aService.getOrderCount(searchMap);
+//		System.out.println(orderCount);
+		if(orderCount != 0) {
+			PageInfo pi = Pagination.getPageInfo(currentPage, orderCount, 10);
+			ArrayList<Integer> orders = aService.searchAllOrder(pi, searchMap);
+//			System.out.println(pi);
+//			System.out.println(orders);
+			
+			ArrayList<OrderProduct> list = aService.selectAllOrderProduct(orders);
+//			System.out.println(list);
+			model.addAttribute("orders", orders);
+			model.addAttribute("list", list);
+			model.addAttribute("pi", pi);
+		}
+		model.addAttribute("orderCount", orderCount);
+		model.addAttribute("name", name);
+		model.addAttribute("address", address);
+		model.addAttribute("startDate", startDate);
+		model.addAttribute("endDate", endDate);
+		model.addAttribute("payMethod", payMethod);
+		return "checkPayment";
 	}
 	
 }

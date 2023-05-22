@@ -9,6 +9,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 public class Member {
+	private int memberNo;
 	private String memberId;
 	private String memberPwd;
 	private String memberName;
@@ -29,10 +30,11 @@ public class Member {
 
 	public Member() {}
 
-	public Member(String memberId, String memberPwd, String memberName, String memberNickName, Date memberAge, char memberGender,
+	public Member(int memberNo, String memberId, String memberPwd, String memberName, String memberNickName, Date memberAge, char memberGender,
 			String memberEmail, String memberHomePhone, String memberPhone, String memberAddress, Date enrollDate,
-			int point, int payAmount, String eventAgree, String grade, char admin, char memverStatus) {
+			int point, int payAmount, String eventAgree, String grade, char admin, char memberStatus) {
 		super();
+		this.memberNo = memberNo;
 		this.memberId = memberId;
 		this.memberPwd = memberPwd;
 		this.memberName = memberName;
@@ -50,6 +52,14 @@ public class Member {
 		this.grade = grade;
 		this.admin = admin;
 		this.memberStatus = memberStatus;
+	}
+	
+	public int getMemberNo() {
+		return memberNo;
+	}
+
+	public void setMemberNo(int memberNo) {
+		this.memberNo = memberNo;
 	}
 
 	public String getMemberId() {
@@ -198,12 +208,23 @@ public class Member {
 
 	@Override
 	public String toString() {
-		return "Member [memberId=" + memberId + ", memberPwd=" + memberPwd + ", memberName=" + memberName
-				+ ", memberNickName=" + memberNickName + ", memberAge=" + memberAge + ", memberGender=" + memberGender
-				+ ", memberEmail=" + memberEmail + ", memberHomePhone=" + memberHomePhone + ", memberPhone="
-				+ memberPhone + ", memberAddress=" + memberAddress + ", enrollDate=" + enrollDate + ", point=" + point
-				+ ", payAmount=" + payAmount + ", eventAgree=" + eventAgree + ", grade=" + grade + ", admin=" + admin
-				+ ", memberStatus=" + memberStatus + "]";
+		return "Member [memberNo=" + memberNo + ", memberId=" + memberId + ", memberPwd=" + memberPwd + ", memberName="
+				+ memberName + ", memberNickName=" + memberNickName + ", memberAge=" + memberAge + ", memberGender="
+				+ memberGender + ", memberEmail=" + memberEmail + ", memberHomePhone=" + memberHomePhone
+				+ ", memberPhone=" + memberPhone + ", memberAddress=" + memberAddress + ", enrollDate=" + enrollDate
+				+ ", point=" + point + ", payAmount=" + payAmount + ", eventAgree=" + eventAgree + ", grade=" + grade
+				+ ", admin=" + admin + ", memberStatus=" + memberStatus + ", getMemberNo()=" + getMemberNo()
+				+ ", getMemberId()=" + getMemberId() + ", getMemberPwd()=" + getMemberPwd() + ", getMemberName()="
+				+ getMemberName() + ", getMemberNickName()=" + getMemberNickName() + ", getMemberAge()="
+				+ getMemberAge() + ", getMemberGender()=" + getMemberGender() + ", getMemberEmail()=" + getMemberEmail()
+				+ ", getMemberHomePhone()=" + getMemberHomePhone() + ", getMemberPhone()=" + getMemberPhone()
+				+ ", getMemberAddress()=" + getMemberAddress() + ", getEnrollDate()=" + getEnrollDate()
+				+ ", getPoint()=" + getPoint() + ", getPayAmount()=" + getPayAmount() + ", geteventAgree()="
+				+ geteventAgree() + ", getGrade()=" + getGrade() + ", getAdmin()=" + getAdmin() + ", getEventAgree()="
+				+ getEventAgree() + ", getMemberStatus()=" + getMemberStatus() + ", getClass()=" + getClass()
+				+ ", hashCode()=" + hashCode() + ", toString()=" + super.toString() + "]";
 	}
+
+	
 	
 }
