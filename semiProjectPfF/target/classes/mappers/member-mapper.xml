@@ -25,7 +25,9 @@
 	</resultMap>
 	
 	<insert id="enroll">
-		insert into member values(MEM_SEQ.NEXTVAL, #{memberId}, #{memberPwd}, #{memberName}, #{memberNickName}, #{memberAge}, #{memberGender}, #{memberEmail}, #{memberHomePhone}, #{memberPhone}, #{memberAddress}, sysdate, default, default, default, #{eventAgree}, default, default)	
+		insert into member 
+		values(MEM_SEQ.NEXTVAL, #{memberId}, #{memberPwd}, #{memberName}, #{memberNickName}, #{memberAge}, #{memberGender}, 
+		#{memberEmail}, #{memberHomePhone}, #{memberPhone}, #{memberAddress}, sysdate, default, default, default, #{eventAgree}, default, default)	
 	</insert>
 	
 	<select id="checkId" resultType="_int">

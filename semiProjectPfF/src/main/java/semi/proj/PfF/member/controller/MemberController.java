@@ -88,11 +88,11 @@ public class MemberController {
 		} else {
 			enrollUser.setMemberHomePhone(null);
 		}
-		
 		enrollUser.setMemberPhone(phone1 + "-" + phone2.trim() + "-" + phone3.trim());
 		enrollUser.setMemberAddress(addr1 + "/" + addr2 + "/" + addr3 + "/" + addr4);
 		
 		enrollUser.setMemberPwd(bcrypt.encode(enrollUser.getMemberPwd()));
+		System.out.println(enrollUser);
 		
 		int result = mService.enroll(enrollUser);
 		

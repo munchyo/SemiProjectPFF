@@ -29,9 +29,9 @@ public class Member {
 
 	public Member() {}
 
-	public Member(String memberId, String memberPwd, String memberName, String memberNickName, Date memberAge, char memberGender,
-			String memberEmail, String memberHomePhone, String memberPhone, String memberAddress, Date enrollDate,
-			int point, int payAmount, String eventAgree, String grade, char admin, char memverStatus) {
+	public Member(String memberId, String memberPwd, String memberName, String memberNickName, Date memberAge,
+			char memberGender, String memberEmail, String memberHomePhone, String memberPhone, String memberAddress,
+			Date enrollDate, int point, int payAmount, String eventAgree, String grade, char admin, char memberStatus) {
 		super();
 		this.memberId = memberId;
 		this.memberPwd = memberPwd;
@@ -75,7 +75,7 @@ public class Member {
 	public void setMemberName(String memberName) {
 		this.memberName = memberName;
 	}
-	
+
 	public String getMemberNickName() {
 		return memberNickName;
 	}
@@ -156,11 +156,11 @@ public class Member {
 		this.payAmount = payAmount;
 	}
 
-	public String geteventAgree() {
+	public String getEventAgree() {
 		return eventAgree;
 	}
 
-	public void seteventAgree(String eventAgree) {
+	public void setEventAgree(String eventAgree) {
 		this.eventAgree = eventAgree;
 	}
 
@@ -178,14 +178,6 @@ public class Member {
 
 	public void setAdmin(char admin) {
 		this.admin = admin;
-	}
-	
-	public String getEventAgree() {
-		return eventAgree;
-	}
-
-	public void setEventAgree(String eventAgree) {
-		this.eventAgree = eventAgree;
 	}
 
 	public char getMemberStatus() {
