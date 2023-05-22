@@ -161,6 +161,7 @@
             </a>
 		</c:forEach>
             <div class="clearfix"></div>
+            <button type="button" id="deletebtn" class="deleteProduct" onclick="deleteConfirm()" >삭제하기</button>
         </div>
     </div>
 	
