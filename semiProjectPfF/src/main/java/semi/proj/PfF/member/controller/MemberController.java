@@ -36,45 +36,45 @@ public class MemberController {
 	@Autowired
 	private MailSendService mailService;
 	
-	// ·Î±×ÀÎ È­¸é ÀÌµ¿
+	// ï¿½Î±ï¿½ï¿½ï¿½ È­ï¿½ï¿½ ï¿½Ìµï¿½
 	@GetMapping("loginView.me")
 	public String loginView() {
 		return "login";
 	}
 
-	// È¸¿ø·Î±×ÀÎ
+	// È¸ï¿½ï¿½ï¿½Î±ï¿½ï¿½ï¿½
 	@PostMapping("login.me")
 	public String login(@ModelAttribute Member login, Model model) {
-		// ¼­ºñ½º¿¡ º¸³»¼­ Member Ã¤¿ö¿È
+		// ï¿½ï¿½ï¿½ñ½º¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Member Ã¤ï¿½ï¿½ï¿½ï¿½d
 		Member m = mService.login(login);
 		
 		if(m != null && bcrypt.matches(login.getMemberPwd(), m.getMemberPwd())) {
 			model.addAttribute("loginUser", m);
 			return "redirect:/";
-		} else throw new MemberException("¾ÆÀÌµð ¶Ç´Â ÆÐ½º¿öµå¸¦ È®ÀÎÇÏ¼¼¿ä.");
+		} else throw new MemberException("ï¿½ï¿½ï¿½Ìµï¿½ ï¿½Ç´ï¿½ ï¿½Ð½ï¿½ï¿½ï¿½ï¿½å¸¦ È®ï¿½ï¿½ï¿½Ï¼ï¿½ï¿½ï¿½.");
 	}
 	
-	// ·Î±×¾Æ¿ô
+	// ï¿½Î±×¾Æ¿ï¿½
 	@GetMapping("logout.me")
 	public String logout(SessionStatus status) {
 		status.setComplete();
 		return "redirect:/";
 	}
 
-	// È¸¿ø°¡ÀÔ ¾à°üµ¿ÀÇ·Î ÀÌµ¿
+	// È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ ï¿½Ìµï¿½
 	@GetMapping("enrollViewAgree.me")
 	public String enrollViewAgree() {
 		return "enrollViewAgree";
 	}
 
-	// ¾à°üµ¿ÀÇ¿¡¼­ È¸¿ø°¡ÀÔÀ¸·Î ÀÌµ¿
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç¿ï¿½ï¿½ï¿½ È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½
 	@RequestMapping("enrollView.me")
 	public String enrollView(@RequestParam(name = "eventAgree", required = false, defaultValue = "N") String eventAgree, HttpServletRequest request) {
 		request.setAttribute("eventAgree", eventAgree);
 		return "enrollView";
 	}
 
-	// È¸¿ø°¡ÀÔ ÁýÀüÈ­°¡ µÑÁß¿¡ ÇÏ³ª¶óµµ ³ÎÀÌ¸é ¿À·ù¹ß»ý
+	// È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½È­ï¿½ï¿½ ï¿½ï¿½ï¿½ß¿ï¿½ ï¿½Ï³ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ß»ï¿½
 	@PostMapping("enroll.me")
 	public String enroll(@ModelAttribute Member enrollUser, @RequestParam("homePhone1") String home1, @RequestParam("homePhone2") String home2, @RequestParam("homePhone3") String home3,
 			 			@RequestParam("phone1") String phone1, @RequestParam("phone2") String phone2, @RequestParam("phone3") String phone3,
@@ -84,39 +84,49 @@ public class MemberController {
 		if(home2 != null && home3 != null) {
 			enrollUser.setMemberHomePhone(home1 + "-" + home2.trim() + "-" + home3.trim());
 		} else if((home2 == null && home3 != null) || (home2 != null && home3 == null)) {
-			throw new MemberException("ÀÚÅÃ¹øÈ£°¡ Àß¸ø ÀÔ·ÂµÇ¾ú½À´Ï´Ù.");
+			throw new MemberException("ï¿½ï¿½ï¿½Ã¹ï¿½È£ï¿½ï¿½ ï¿½ß¸ï¿½ ï¿½Ô·ÂµÇ¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.");
 		} else {
 			enrollUser.setMemberHomePhone(null);
 		}
+		
 		enrollUser.setMemberPhone(phone1 + "-" + phone2.trim() + "-" + phone3.trim());
 		enrollUser.setMemberAddress(addr1 + "/" + addr2 + "/" + addr3 + "/" + addr4);
 		
 		enrollUser.setMemberPwd(bcrypt.encode(enrollUser.getMemberPwd()));
-		System.out.println(enrollUser);
 		
 		int result = mService.enroll(enrollUser);
 		
 		if(result > 0) {
 			model.addAttribute("loginUser", enrollUser);
 			return "redirect:/";
-		} else throw new MemberException("È¸¿ø°¡ÀÔ¿¡ ½ÇÆÐ Çß½À´Ï´Ù.");
+		} else throw new MemberException("È¸ï¿½ï¿½ï¿½ï¿½ï¿½Ô¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ß½ï¿½ï¿½Ï´ï¿½.");
 		
 	}
 	
+	// ï¿½ï¿½ï¿½Ìµï¿½ï¿½ßºï¿½
 	@RequestMapping("checkId.me")
 	public void checkId(@RequestParam("id") String id, PrintWriter out) {
 		int count = mService.checkId(id);
 		out.print(count == 0 ? "yes" : "no");
 	}
 	
+	// ï¿½Ð³ï¿½ï¿½ï¿½ï¿½ßºï¿½
 	@RequestMapping("checkNickName.me")
 	public void checkNickName(@RequestParam("nickname") String nickname, PrintWriter out) {
 		out.print(mService.checkNickName(nickname) == 0 ? "yes" : "no");
 	}
 	
+	// ï¿½Ì¸ï¿½ï¿½ï¿½ï¿½ßºï¿½
+	@RequestMapping("checkEmail.me")
+	public void checkEmail(@RequestParam("email") String email, PrintWriter out) {
+		int count = mService.checkEmail(email);
+		out.print(count == 0 ? "yes" : "no");
+	}
+	
+	// Ä«Ä«ï¿½ï¿½ï¿½Î±ï¿½ï¿½ï¿½
 	@PostMapping("kakaoLogin.me")
 	public String kakaoLogin(@ModelAttribute KakaoMember loginUser, Model model) {
-		// ¸¸¾à¿¡ Ã³À½ Ä«Ä«¿À·Î±×ÀÎÇÑ°Å¸é µðºñ¿¡ Å©¸®¿¡ÀÌÆ®ÇÏ°í ·Î±×ÀÎÇØ¾ßÇÔ, Ã³À½ÀÌ ¾Æ´Ï¸é ±×³É ·Î±×ÀÎ½ÃÅ´ ±×·²·Á¸é µðºñ¿¡ selectµÇ´ÂÁö È®ÀÎÇØ¾ßÇÔ
+		// ï¿½ï¿½ï¿½à¿¡ Ã³ï¿½ï¿½ Ä«Ä«ï¿½ï¿½ï¿½Î±ï¿½ï¿½ï¿½ï¿½Ñ°Å¸ï¿½ ï¿½ï¿½ï¿½ Å©ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½Ï°ï¿½ ï¿½Î±ï¿½ï¿½ï¿½ï¿½Ø¾ï¿½ï¿½ï¿½, Ã³ï¿½ï¿½ï¿½ï¿½ ï¿½Æ´Ï¸ï¿½ ï¿½×³ï¿½ ï¿½Î±ï¿½ï¿½Î½ï¿½Å´ ï¿½×·ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ selectï¿½Ç´ï¿½ï¿½ï¿½ È®ï¿½ï¿½ï¿½Ø¾ï¿½ï¿½ï¿½
 		KakaoMember kakao = mService.selectKakaoMember(loginUser);
 		
 		if(kakao != null) {
@@ -133,6 +143,7 @@ public class MemberController {
 		
 	}
 	
+	// ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½
 	@RequestMapping("mailCheck.me")
 	@ResponseBody
 	public String mailCheck(String email) {

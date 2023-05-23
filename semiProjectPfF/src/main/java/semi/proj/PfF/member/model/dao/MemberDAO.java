@@ -25,6 +25,10 @@ public class MemberDAO {
 		return sqlSession.selectOne("memberMapper.checkNickName", nickname);
 	}
 
+	public int checkEmail(SqlSessionTemplate sqlSession, String email) {
+		return sqlSession.selectOne("memberMapper.checkEmail", email);
+	}
+
 	public KakaoMember selectKakaoMember(SqlSessionTemplate sqlSession, KakaoMember loginUser) {
 		return sqlSession.selectOne("memberMapper.selectKakao", loginUser);
 	}
@@ -32,6 +36,7 @@ public class MemberDAO {
 	public int enrollKakao(SqlSessionTemplate sqlSession, KakaoMember loginUser) {
 		return sqlSession.insert("memberMapper.enrollKakao", loginUser);
 	}
+
 	
 
 }

@@ -17,42 +17,43 @@ public class MailSendService {
 	
 	@Autowired(required = false)
 	private int authNumber; 
-	// ³­¼ö ¹ß»ı
 	
 		public void makeRandomNumber() {
-			// ³­¼öÀÇ ¹üÀ§ 111111 ~ 999999 (6ÀÚ¸® ³­¼ö)
 			Random r = new Random();
 			int checkNum = r.nextInt(888888) + 111111;
 			authNumber = checkNum;
 		}
 		
-		
-				//ÀÌ¸ŞÀÏ º¸³¾ ¾ç½Ä! 
+		// ì´ë©”ì¼ ì–‘ì‹
 		public String joinEmail(String email) {
 			makeRandomNumber();
-			String setFrom = ".com"; // email-config¿¡ ¼³Á¤ÇÑ ÀÚ½ÅÀÇ ÀÌ¸ŞÀÏ ÁÖ¼Ò¸¦ ÀÔ·Â 
+			String setFrom = ".com"; // email-config
 			String toMail = email;
-			String title = "È¸¿ø °¡ÀÔ ÀÎÁõ ÀÌ¸ŞÀÏ ÀÔ´Ï´Ù."; // ÀÌ¸ŞÀÏ Á¦¸ñ 
+			String title = "íšŒì› ê°€ì… ì¸ì¦ ì´ë©”ì¼ ì…ë‹ˆë‹¤.";
 			String content = 
-					"PfF¸¦ ¹æ¹®ÇØÁÖ¼Å¼­ °¨»çÇÕ´Ï´Ù." + 	//html Çü½ÄÀ¸·Î ÀÛ¼º ! 
+					"<a href=\"http://localhost:8080/PfF/\">"
+					+ "<img alt=\"ë¡œê³ \" src=\"https://mail.naver.com/read/image/original/?mimeSN=1684820155.27"
+					+ "9193.62561.50944&offset=1719&size=4142&u=m_chyo_&cid=85ef8b651cc64c1dd08cdd674aed8d13@cweb0"
+					+ "03.nm.nfra.io&contentType=image/png&filename=1684820145721.png&org=1\"><br><br>"
+					+ "PfFë¥¼ ë°©ë¬¸í•´ì£¼ì…”ì„œ ê°ì‚¬í•©ë‹ˆë‹¤." +
 	                "<br><br>" + 
-				    "ÀÎÁõ ¹øÈ£´Â " + authNumber + "ÀÔ´Ï´Ù." + 
+				    "ì¸ì¦ ë²ˆí˜¸ëŠ” " + authNumber + " ì…ë‹ˆë‹¤." + 
 				    "<br>" + 
-				    "ÇØ´ç ÀÎÁõ¹øÈ£¸¦ ÀÎÁõ¹øÈ£ È®ÀÎ¶õ¿¡ ±âÀÔÇÏ¿© ÁÖ¼¼¿ä."; //ÀÌ¸ŞÀÏ ³»¿ë »ğÀÔ
+				    "í•´ë‹¹ ì¸ì¦ë²ˆí˜¸ë¥¼ ì¸ì¦ë²ˆí˜¸ í™•ì¸ë€ì— ê¸°ì…í•˜ì—¬ ì£¼ì„¸ìš”.";
 			mailSend(setFrom, toMail, title, content);
 			return Integer.toString(authNumber);
 		}
 		
-		//ÀÌ¸ŞÀÏ Àü¼Û ¸Ş¼Òµå
+		// ì´ë©”ì¼ í—¬í¼
 		public void mailSend(String setFrom, String toMail, String title, String content) { 
 			MimeMessage message = mailSender.createMimeMessage();
-			// true ¸Å°³°ªÀ» Àü´ŞÇÏ¸é multipart Çü½ÄÀÇ ¸Ş¼¼Áö Àü´ŞÀÌ °¡´É.¹®ÀÚ ÀÎÄÚµù ¼³Á¤µµ °¡´ÉÇÏ´Ù.
+			// true ì¼ë•Œ ì—¬ëŸ¬ê°œ ì‘ì„±ê°€ëŠ¥
 			try {
 				MimeMessageHelper helper = new MimeMessageHelper(message, true, "utf-8");
 				helper.setFrom(setFrom);
 				helper.setTo(toMail);
 				helper.setSubject(title);
-				// true Àü´Ş > html Çü½ÄÀ¸·Î Àü¼Û , ÀÛ¼ºÇÏÁö ¾ÊÀ¸¸é ´Ü¼ø ÅØ½ºÆ®·Î Àü´Ş.
+				// true ï¿½ï¿½ï¿½ï¿½ > html ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ , ï¿½Û¼ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ü¼ï¿½ ï¿½Ø½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
 				helper.setText(content,true);
 				mailSender.send(message);
 			} catch (MessagingException e) {

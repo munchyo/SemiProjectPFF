@@ -6,8 +6,7 @@
 	</select>
 	
 	<resultMap type="Member" id="memberResultSet">
-		<id column="MEMBER_NO" property="memberNo"/>
-		<result column="MEMBER_ID" property="memberId"/>
+		<id column="MEMBER_ID" property="memberId"/>
 		<result column="MEMBER_PWD" property="memberPwd"/>
 		<result column="MEMBER_NAME" property="memberName"/>
 		<result column="MEMBER_NICKNAME" property="memberNickName"/>
@@ -26,9 +25,7 @@
 	</resultMap>
 	
 	<insert id="enroll">
-		insert into member 
-		values(MEM_SEQ.NEXTVAL, #{memberId}, #{memberPwd}, #{memberName}, #{memberNickName}, #{memberAge}, #{memberGender}, 
-		#{memberEmail}, #{memberHomePhone}, #{memberPhone}, #{memberAddress}, sysdate, default, default, default, #{eventAgree}, default, default)	
+		insert into member values(MEM_SEQ.NEXTVAL, #{memberId}, #{memberPwd}, #{memberName}, #{memberNickName}, #{memberAge}, #{memberGender}, #{memberEmail}, #{memberHomePhone}, #{memberPhone}, #{memberAddress}, sysdate, default, default, default, #{eventAgree}, default, default)	
 	</insert>
 	
 	<select id="checkId" resultType="_int">
@@ -39,13 +36,16 @@
 		select count(*) from member where member_nickname = #{nickname}
 	</select>
 	
+	<select id="checkEmail" resultType="_int">
+		select count(*) from member where member_email = #{email}
+	</select>
+	
 	<select id="selectKakao" resultMap="kakaoResultSet">
 		select * from kakao_member join member using(member_no) where kakao_id = #{memberId} and member_status = 'Y'
 	</select>
 	
 	<resultMap type="KakaoMember" id="kakaoResultSet">
-		<id column="MEMBER_NO" property="memberNo"/>
-		<result column="KAKAO_ID" property="memberId"/>
+		<id column="KAKAO_ID" property="memberId"/>
 		<result column="MEMBER_NAME" property="memberName"/>
 		<result column="MEMBER_NICKNAME" property="memberNickName"/>
 		<result column="MEMBER_HOMEPHONE" property="memberHomePhone"/>

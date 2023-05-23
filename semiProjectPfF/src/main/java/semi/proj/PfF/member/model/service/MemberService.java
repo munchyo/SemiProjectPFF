@@ -32,6 +32,10 @@ public class MemberService {
 		return mDAO.checkNickName(sqlSession, nickname);
 	}
 
+	public int checkEmail(String email) {
+		return mDAO.checkEmail(sqlSession, email);
+	}
+
 	public KakaoMember selectKakaoMember(KakaoMember loginUser) {
 		return mDAO.selectKakaoMember(sqlSession, loginUser);
 	}
@@ -39,4 +43,5 @@ public class MemberService {
 	public int enrollKakao(KakaoMember loginUser) {
 		return mDAO.enrollKakao(sqlSession, loginUser);
 	}
+
 }
