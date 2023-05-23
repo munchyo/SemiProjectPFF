@@ -6,7 +6,7 @@ public class OrderProduct {
 	private int orderPNo;
 	private int productNo;
 	private String productName;
-	private String productPrice;
+	private int productPrice;
 	private int discountRate;
 	private int count;
 	private String size;
@@ -25,7 +25,7 @@ public class OrderProduct {
 		this.orderNo = orderNo;
 	}
 
-	public OrderProduct(int orderPNo, int productNo, String productName, String productPrice, int discountRate,
+	public OrderProduct(int orderPNo, int productNo, String productName, int productPrice, int discountRate,
 			int count, String size, long orderNo, int memberNo, String orderPayType, int orderPrice,
 			String orderAddress, Date orderDate) {
 		super();
@@ -72,11 +72,11 @@ public class OrderProduct {
 		this.productName = productName;
 	}
 
-	public String getProductPrice() {
+	public int getProductPrice() {
 		return productPrice;
 	}
 
-	public void setProductPrice(String productPrice) {
+	public void setProductPrice(int productPrice) {
 		this.productPrice = productPrice;
 	}
 
