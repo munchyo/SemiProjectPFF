@@ -1,5 +1,7 @@
 package semi.proj.PfF.member.model.dao;
 
+import java.util.HashMap;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -36,7 +38,19 @@ public class MemberDAO {
 	public int enrollKakao(SqlSessionTemplate sqlSession, KakaoMember loginUser) {
 		return sqlSession.insert("memberMapper.enrollKakao", loginUser);
 	}
+	
+	public String findIdResult(SqlSessionTemplate sqlSession, String email) {
+	    return sqlSession.selectOne("memberMapper.findIdResult", email);
+	}
 
+	public int findPwdResult(SqlSessionTemplate sqlSession, HashMap<String, String> map) {
+		return sqlSession.selectOne("memberMapper.findPwdResult", map);
+	}
+
+	public int updatePw(SqlSessionTemplate sqlSession, HashMap<String, String> map) {
+		return sqlSession.update("memberMapper.updatePw", map);
+	}
+	
 	
 
 }

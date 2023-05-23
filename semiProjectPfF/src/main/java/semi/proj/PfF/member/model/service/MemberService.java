@@ -1,5 +1,7 @@
 package semi.proj.PfF.member.model.service;
 
+import java.util.HashMap;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -44,4 +46,15 @@ public class MemberService {
 		return mDAO.enrollKakao(sqlSession, loginUser);
 	}
 
+	public String findIdResult(String email) {
+		return mDAO.findIdResult(sqlSession, email);
+	}
+
+	public int findPwdResult(HashMap<String, String> map) {
+		return mDAO.findPwdResult(sqlSession, map);
+	}
+
+	public int updatePw(HashMap<String, String> map) {
+		return mDAO.updatePw(sqlSession, map);
+	}
 }

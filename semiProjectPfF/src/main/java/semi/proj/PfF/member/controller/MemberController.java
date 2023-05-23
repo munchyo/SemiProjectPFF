@@ -1,10 +1,15 @@
 package semi.proj.PfF.member.controller;
 
 import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.Random;
 
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,6 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
@@ -35,6 +41,9 @@ public class MemberController {
 	
 	@Autowired
 	private MailSendService mailService;
+	
+	@Autowired
+	private JavaMailSender mailSender;
 	
 	// �α��� ȭ�� �̵�
 	@GetMapping("loginView.me")
@@ -148,6 +157,137 @@ public class MemberController {
 	@ResponseBody
 	public String mailCheck(String email) {
 		return mailService.joinEmail(email);
+	}
+	
+	@RequestMapping(value = "findIdCheck.me", method = RequestMethod.GET )	
+	@ResponseBody
+	public String searchIdCheck(String email) throws Exception{ //반환값이 있기에 메서드 타입도 String
+		// System.out.println("이메일 데이터 전송 확인");  //확인용
+		// System.out.println("인증 이메일 : " + email);  
+		
+		//인증번호 생성
+		Random random = new Random();
+		int checkNum = random.nextInt(888888) + 111111;
+		// System.out.println("인증번호 :"+ checkNum);
+		
+		//이메일 전송 내용
+		String setFrom = "xodnr15860@gmail.com"; //발신 이메일
+		String toMail = email;        			 //받는 이메일
+		String title = "PfF 아이디찾기 인증 이메일 입니다.";
+		String content = "인증 번호는 " + checkNum + "입니다." + 
+						 "해당 인증번호를 인증번호 확인란에 기입하여 주세요.";
+		//이메일 전송 코드
+		try {
+			MimeMessage message = mailSender.createMimeMessage();
+			MimeMessageHelper helper = new MimeMessageHelper(message, true, "utf-8");
+			helper.setFrom(setFrom);
+			helper.setTo(toMail);
+			helper.setSubject(title);
+			helper.setText(content,true);
+			mailSender.send(message);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		String num = Integer.toString(checkNum); // ajax를 뷰로 반환시 데이터 타입은 String 타입만 가능
+		return num; // String 타입으로 변환 후 반환
+	}
+	
+	@RequestMapping(value = "findPwdCheck.me", method = RequestMethod.GET )	
+	@ResponseBody
+	public String searchPwdCheck(String email) throws Exception{ //반환값이 있기에 메서드 타입도 String
+		// System.out.println("이메일 데이터 전송 확인");  //확인용
+		// System.out.println("인증 이메일 : " + email);  
+		
+		//인증번호 생성
+		Random random = new Random();
+		int checkNum = random.nextInt(888888) + 111111;
+		// System.out.println("인증번호 :"+ checkNum);
+		
+		//이메일 전송 내용
+		String setFrom = "xodnr15860@gmail.com"; //발신 이메일
+		String toMail = email;        			 //받는 이메일
+		String title = "PfF 비밀번호찾기 인증 이메일 입니다.";
+		String content = "인증 번호는 " + checkNum + "입니다." + 
+						 "해당 인증번호를 인증번호 확인란에 기입하여 주세요.";
+		//이메일 전송 코드
+		try {
+			MimeMessage message = mailSender.createMimeMessage();
+			MimeMessageHelper helper = new MimeMessageHelper(message, true, "utf-8");
+			helper.setFrom(setFrom);
+			helper.setTo(toMail);
+			helper.setSubject(title);
+			helper.setText(content,true);
+			mailSender.send(message);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		String num = Integer.toString(checkNum); // ajax를 뷰로 반환시 데이터 타입은 String 타입만 가능
+		return num; // String 타입으로 변환 후 반환
+	}
+	
+	
+	@RequestMapping("findId.me")
+	public String findId() {
+		
+		return "findId";
+	}
+	
+	@RequestMapping("findPwd.me")
+	public String findPwd() {
+		
+		return "findPwd";
+	}
+	
+	@PostMapping("findIdResult.me")
+	 public String findIdResult(@RequestParam(value = "email", required = true) String email, Model model) {
+		String id = mService.findIdResult(email);
+        
+        if (id != null) {
+            model.addAttribute("existId", true);
+            model.addAttribute("id", id);
+        } else {
+            model.addAttribute("existId", false);
+        }
+        return "findIdResult";
+     }
+	
+	@PostMapping("findPwdResult.me")
+	 public String findPwdResult(@ModelAttribute Member m, Model model) {
+		
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("id", m.getMemberId());
+		map.put("email", m.getMemberEmail());
+		
+		int result = mService.findPwdResult(map);
+		
+		if(result > 0) {
+			model.addAttribute("id", m.getMemberId());
+			return "findPwdResult";
+		} else {
+			throw new MemberException("일치하는 정보가 없습니다.");
+		}
+    }
+	
+	@PostMapping("updatePw.me")
+	public String updatePw(@RequestParam("newPwd") String pwd, @RequestParam("id") String id, Model model) {
+
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("id", id);
+		map.put("newPwd", bcrypt.encode(pwd));
+		
+		int result = mService.updatePw(map);
+		
+		if(result > 0) {
+			return "login";
+		} else {
+			throw new MemberException("비밀번호 수정이 실패하였습니다.");
+		}
+	}
+	
+	@RequestMapping("leave.me")
+	public String leave() {
+		
+		return "leave";
 	}
 	
 }

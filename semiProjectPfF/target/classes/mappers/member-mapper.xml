@@ -66,4 +66,23 @@
 		SELECT 1 FROM DUAL
 	</insert>
 	
+	<select id="findIdResult" resultType="String">
+		select member_id
+		from member
+		where MEMBER_EMAIL = #{memberEmail} and member_status = 'Y'
+	</select>
+	
+	<select id="findPwdResult" resultType="_int">
+		select count(*)
+		from member
+		where MEMBER_EMAIL = #{memberEmail} and MEMBER_ID = #{memberId} and member_status = 'Y'
+	</select>
+	
+	<update id="updatePw">
+		update member set
+		member_pwd=#{newPwd}
+		where member_id=#{memberId}
+	</update>
+	
+	
 </mapper>
