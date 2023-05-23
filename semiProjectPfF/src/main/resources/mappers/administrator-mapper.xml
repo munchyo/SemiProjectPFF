@@ -37,4 +37,54 @@
 		select distinct order_date from order_detail order by order_date
 	</select>
 	
+	<select id="memberList" resultMap="memberResultSet">
+		SELECT *
+		FROM MEMBER
+		ORDER BY MEMBER_NO DESC
+	</select>
+	
+	<select id="memberSelectOne" resultMap="memberResultSet">
+		SELECT *
+		FROM MEMBER
+		WHERE MEMBER_ID = #{memberId}
+	</select>
+	
+		<update id="updateMember">
+			UPDATE MEMBER
+			SET
+			MEMBER_ADDRESS = #{memberAddress},
+			MEMBER_EMAIL = #{memberEmail},
+			MEMBER_PHONE = #{memberPhone},
+			MEMBER_GRADE = #{grade},
+			MEMBER_STATUS = #{memberStatus}
+			WHERE MEMBER_NO = #{memberNo}
+		</update>
+	
+	<delete id="deleteMember">
+		DELETE
+		FROM MEMBER
+		WHERE MEMBER_Id = #{memberId}
+	</delete>
+	
+	<resultMap type="Member" id="memberResultSet">
+		<id column="MEMBER_NO" property="memberNo"/>
+		<result column="MEMBER_ID" property="memberId"/>
+		<result column="MEMBER_PWD" property="memberPwd"/>
+		<result column="MEMBER_NAME" property="memberName"/>
+		<result column="MEMBER_NICKNAME" property="memberNickName"/>
+		<result column="MEMBER_AGE" property="memberAge"/>
+		<result column="MEMBER_GENDER" property="memberGender"/>
+		<result column="MEMBER_EMAIL" property="memberEmail"/>
+		<result column="MEMBER_HOMEPHONE" property="memberHomePhone"/>
+		<result column="MEMBER_PHONE" property="memberPhone"/>
+		<result column="MEMBER_ADDRESS" property="memberAddress"/>
+		<result column="ENROLL_DATE" property="enrollDate"/>
+		<result column="MEMBER_STATUS" property="memberStatus"/>
+		<result column="MEMBER_POINT" property="point"/>
+		<result column="PAY_AMOUNT" property="payAmount"/>
+		<result column="EVENT_AGREE" property="eventAgree"/>
+		<result column="MEMBER_GRADE" property="grade"/>
+		<result column="IS_ADMIN" property="admin"/>
+	</resultMap>
+	
 </mapper>

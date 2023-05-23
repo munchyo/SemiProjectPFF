@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import semi.proj.PfF.administrator.model.DAO.AdministratorDAO;
 import semi.proj.PfF.common.model.vo.PageInfo;
+import semi.proj.PfF.member.model.vo.Member;
 import semi.proj.PfF.order.model.vo.OrderProduct;
 
 @Service
@@ -55,6 +56,18 @@ public class AdministratorService {
 
 	public ArrayList<OrderProduct> selectAllOrderProduct( ArrayList<Integer> orders) {
 		return aDAO.selectAllOrderProduct(sqlSession, orders);
+	}
+	
+	public int updateMember(Member m) {
+		return aDAO.updateMember(m);
+	}
+
+	public ArrayList<Member> memberList() {
+		return aDAO.memberList();
+	}
+
+	public void deleteMember(String memberId) {
+		aDAO.deleteMember(memberId);
 	}
 	
 }

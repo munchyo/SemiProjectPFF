@@ -6,13 +6,18 @@ import java.util.HashMap;
 
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import semi.proj.PfF.common.model.vo.PageInfo;
+import semi.proj.PfF.member.model.vo.Member;
 import semi.proj.PfF.order.model.vo.OrderProduct;
 
 @Repository
 public class AdministratorDAO {
+	
+	@Autowired
+	private SqlSessionTemplate sqlSession;
 
 	public ArrayList<Integer> selectNumPayer(SqlSessionTemplate sqlSession, Date oneMonthAgo) {
 		return (ArrayList)sqlSession.selectList("administratorMapper.selectNumPayer", oneMonthAgo);
@@ -50,6 +55,18 @@ public class AdministratorDAO {
 
 	public ArrayList<OrderProduct> selectAllOrderProduct(SqlSessionTemplate sqlSession, ArrayList<Integer> orders) {
 		return (ArrayList)sqlSession.selectList("orderMapper.selectAllOrderProduct", orders);
+	}
+	
+	public void deleteMember(String memberId) {
+		sqlSession.delete("memberMapper.deleteMember", memberId);
+	}
+
+	public int updateMember(Member m) {
+		return sqlSession.update("memberMapper.updateMember", m);
+	}
+		
+	public ArrayList<Member> memberList() {
+		return (ArrayList)sqlSession.selectList("memberMapper.memberList");
 	}
 	
 }

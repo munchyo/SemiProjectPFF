@@ -8,12 +8,16 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.google.gson.Gson;
@@ -23,6 +27,7 @@ import com.google.gson.JsonIOException;
 import semi.proj.PfF.administrator.model.service.AdministratorService;
 import semi.proj.PfF.common.Pagination;
 import semi.proj.PfF.common.model.vo.PageInfo;
+import semi.proj.PfF.member.model.vo.Member;
 import semi.proj.PfF.order.model.vo.OrderProduct;
 
 @Controller
@@ -137,6 +142,28 @@ public class AdministratorController {
 		model.addAttribute("endDate", endDate);
 		model.addAttribute("payMethod", payMethod);
 		return "checkPayment";
+	}
+	
+	@RequestMapping(value = "/mng_member.me", method = RequestMethod.GET)
+	public String memberList(HttpSession Session, Model model) {
+		ArrayList<Member> list = aService.memberList();
+		model.addAttribute("memberList", list);
+		return "mng_member";
+	}
+	
+	
+	@PostMapping(value="/updateMember.me")
+	public String updateMember(@ModelAttribute Member m, Model model) {
+		int result = aService.updateMember(m);
+		System.out.println(result);
+		
+		return "redirect:/mng_member.me";
+	}
+	
+	@PostMapping("/deleteMember.me")
+	public String deleteMember(@RequestParam("memberId") String memberId) {
+	    aService.deleteMember(memberId);
+	    return "redirect:/mng_member.me";
 	}
 	
 }

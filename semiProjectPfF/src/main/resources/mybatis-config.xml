@@ -13,9 +13,11 @@
 		<typeAlias type="semi.proj.PfF.order.model.vo.Order" alias="Order"/>
 		<typeAlias type="semi.proj.PfF.order.model.vo.OrderProduct" alias="OrderProduct"/>
 		<typeAlias type="semi.proj.PfF.order.model.vo.Coupon" alias="Coupon"/>
+		<typeAlias type="semi.proj.PfF.cart.model.vo.Cart" alias="Cart"/>
 	</typeAliases>
 
 	<mappers>
+		<mapper resource="mappers/cart-mapper.xml"/>
 		<mapper resource="mappers/member-mapper.xml"/>
 		<mapper resource="mappers/product-mapper.xml"/>
 		<mapper resource="mappers/administrator-mapper.xml"/>
